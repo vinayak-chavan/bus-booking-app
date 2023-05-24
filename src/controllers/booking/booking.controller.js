@@ -25,8 +25,15 @@ const addBooking = async (req, res) => {
     let availableSeatsArray = tripData.availableSeats;
     let busId = tripData.busId;
 
-    const finalReqArr = requestedSeats.map((ele) => parseInt(ele));
+    let finalReqArr=[];
 
+    if(requestedSeats.length == 1) {
+     finalReqArr.push(parseInt(requestedSeats[0]));
+     console.log(finalReqArr);
+    }
+    else{
+    finalReqArr = requestedSeats.map((ele) => parseInt(ele));
+    }
     // check if requested seats available or not
 
     const diffArr = difference(finalReqArr, availableSeatsArray);
@@ -100,6 +107,7 @@ const addBooking = async (req, res) => {
     res.redirect("/mybooking");
     // return successResponse(req, res, insertBooking, 200);
   } catch (error) {
+    console.log(error.message);
     return errorResponse(req, res, "something went wrong", 500, { err: error });
   }
 };
